@@ -6,11 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.vrg_soft_test_task.databinding.PublicationsFragmentBinding
+import com.example.vrg_soft_test_task.presentation.view_model.TopPublicationViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PublicationsFragment: Fragment() {
 
     private var _binding: PublicationsFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val topPublicationVm by sharedViewModel<TopPublicationViewModel>()
+
+    private val topPublicationRvAdapter = TopPublicationRvAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,8 +29,22 @@ class PublicationsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initObserveLoading()
     }
 
+    private fun initObserveLoading() {
+        topPublicationVm.loadTopPublicationVm()
+
+        topPublicationVm.isLoading.observe(viewLifecycleOwner){
+            if (it){
+                val topPublication = topPublicationVm.topPublication.value?.data?.children
+                topPublicationRvAdapter.submitList(topPublication)
+            } else {
+
+            }
+        }
+    }
 
 
     override fun onDestroyView() {
