@@ -93,7 +93,10 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
     }
 
     override fun saveImgPress(imgUrl: String) {
-        SaveDialog(imgUrl,this@PublicationsFragment as ClickPositiveButton).show(childFragmentManager, SaveDialog.TAG)
+        SaveDialog(imgUrl, this@PublicationsFragment as ClickPositiveButton).show(
+            childFragmentManager,
+            SaveDialog.TAG
+        )
     }
 
     override fun click(imgUrl: String) {
@@ -140,7 +143,7 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
                     saveImage(resource)
                     Toast.makeText(
                         requireContext(),
-                        "Успішно збережено до галереї)",
+                        "Successfully saved to gallery",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -150,7 +153,7 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    Toast.makeText(requireContext(), "gg", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), "Error No image(", Toast.LENGTH_SHORT)
                         .show()
                 }
             })

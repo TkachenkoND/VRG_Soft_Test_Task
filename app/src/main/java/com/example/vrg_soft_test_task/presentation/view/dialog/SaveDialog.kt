@@ -13,7 +13,7 @@ interface ClickPositiveButton {
 class SaveDialog(
     private val imgUrl: String,
     private val clickPositiveButton: ClickPositiveButton
-    ) : DialogFragment() {
+) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())

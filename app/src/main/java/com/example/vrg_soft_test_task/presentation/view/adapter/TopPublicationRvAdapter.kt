@@ -26,7 +26,8 @@ interface ClickOnTheSaveImg {
 
 class TopPublicationRvAdapter(
     val clickOnTheImg: ClickOnTheImg,
-    val clickOnTheSaveImg: ClickOnTheSaveImg) :
+    val clickOnTheSaveImg: ClickOnTheSaveImg
+) :
     ListAdapter<Child, TopPublicationRvAdapter.ItemViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

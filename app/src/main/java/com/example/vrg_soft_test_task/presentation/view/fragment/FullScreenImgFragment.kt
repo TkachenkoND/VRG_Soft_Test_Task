@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
@@ -14,6 +15,18 @@ class FullScreenImgFragment(private val imgUrl: String) : Fragment() {
 
     private var _binding: FullScreenImgFragmentBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                parentFragmentManager.commit {
+                    replace(R.id.containerFragment, PublicationsFragment())
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
