@@ -20,7 +20,13 @@ interface ClickOnTheImg {
     fun imgPress(imgUrl: String)
 }
 
-class TopPublicationRvAdapter(val clickOnTheImg: ClickOnTheImg) :
+interface ClickOnTheSaveImg {
+    fun saveImgPress(imgUrl: String)
+}
+
+class TopPublicationRvAdapter(
+    val clickOnTheImg: ClickOnTheImg,
+    val clickOnTheSaveImg: ClickOnTheSaveImg) :
     ListAdapter<Child, TopPublicationRvAdapter.ItemViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -59,6 +65,9 @@ class TopPublicationRvAdapter(val clickOnTheImg: ClickOnTheImg) :
                         clickOnTheImg.imgPress(publicationItem.data.url)
                 }
 
+                saveImgBtn.setOnClickListener {
+                    clickOnTheSaveImg.saveImgPress(publicationItem.data.url)
+                }
 
             }
         }
