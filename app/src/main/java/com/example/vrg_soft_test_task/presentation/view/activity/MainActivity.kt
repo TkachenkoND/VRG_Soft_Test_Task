@@ -2,6 +2,7 @@ package com.example.vrg_soft_test_task.presentation.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.commit
 import com.example.vrg_soft_test_task.R
 import com.example.vrg_soft_test_task.databinding.ActivityMainBinding
@@ -15,6 +16,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        AppCompatDelegate.setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_NO)
 
         initContainerFragment()
     }
