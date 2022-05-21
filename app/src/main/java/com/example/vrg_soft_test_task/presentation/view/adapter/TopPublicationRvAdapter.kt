@@ -54,11 +54,11 @@ class TopPublicationRvAdapter(val clickOnTheImg: ClickOnTheImg) :
 
                 numCommentsTxt.text = "$numComments comments"
 
-                if (!publicationItem.data.thumbnail.isNullOrEmpty()){
-                    imgPublication.setOnClickListener {
+                imgPublication.setOnClickListener {
+                    if (!publicationItem.data.thumbnail.isNullOrEmpty() && !publicationItem.data.url.isNullOrEmpty())
                         clickOnTheImg.imgPress(publicationItem.data.url)
-                    }
                 }
+
 
             }
         }
