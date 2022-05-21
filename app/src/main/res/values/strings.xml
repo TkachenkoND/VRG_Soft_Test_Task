@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">VRG_Soft_Test_Task</string>
     <string name="popular_posts_txt">Popular posts</string>
+    <string name="title_text">"Save image "</string>
+    <string name="body_text">Save image to gallery?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
 </resources>

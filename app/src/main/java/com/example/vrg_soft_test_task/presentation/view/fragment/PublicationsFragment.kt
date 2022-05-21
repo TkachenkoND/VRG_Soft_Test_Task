@@ -12,26 +12,17 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.example.vrg_soft_test_task.R
 import com.example.vrg_soft_test_task.databinding.PublicationsFragmentBinding
 import com.example.vrg_soft_test_task.presentation.view.adapter.ClickOnTheImg
 import com.example.vrg_soft_test_task.presentation.view.adapter.ClickOnTheSaveImg
 import com.example.vrg_soft_test_task.presentation.view.adapter.TopPublicationRvAdapter
+import com.example.vrg_soft_test_task.presentation.view.dialog.SaveDialog
 import com.example.vrg_soft_test_task.presentation.view_model.TopPublicationViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
-import java.net.URL
-
 
 const val IMAGES_FOLDER_NAME = "gg"
 
@@ -95,60 +86,7 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg {
     }
 
     override fun saveImgPress(imgUrl: String) {
-        
-        convertUrlToBitmapGlide(imgUrl)
-    }
-
-    private fun saveImage(bitmap: Bitmap) {
-        val name = "gg"
-
-        val fos: OutputStream? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val resolver: ContentResolver = requireContext().contentResolver
-            val contentValues = ContentValues()
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/$IMAGES_FOLDER_NAME")
-            val imageUri =
-                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-            resolver.openOutputStream(imageUri!!)
-        } else {
-            val imagesDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM
-            ).toString() + File.separator + IMAGES_FOLDER_NAME
-            val file = File(imagesDir)
-            if (!file.exists()) {
-                file.mkdir()
-            }
-            val image = File(imagesDir, "$name.png")
-            FileOutputStream(image)
-        }
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        fos!!.flush()
-        fos.close()
-    }
-
-    private fun convertUrlToBitmapGlide(imgUrl: String) {
-        Glide.with(this)
-            .asBitmap()
-            .load(imgUrl)
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    transition: Transition<in Bitmap>?
-                ) {
-                    saveImage(resource)
-                    Toast.makeText(requireContext(), "Успішно збережено до галереї)", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                    super.onLoadFailed(errorDrawable)
-                    Toast.makeText(requireContext(), "gg", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
+        SaveDialog(imgUrl).show(childFragmentManager, SaveDialog.TAG)
     }
 
     override fun onDestroyView() {
