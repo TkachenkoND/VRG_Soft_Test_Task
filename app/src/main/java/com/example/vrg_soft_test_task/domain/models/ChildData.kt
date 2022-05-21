@@ -9,8 +9,6 @@ data class ChildData(
     val authorFullName: String,
     val title: String,
     val thumbnail: String,
-    val id: String,
-    val author: String,
     @Json(name = "num_comments")
     val numComments: Long,
     val url: String,

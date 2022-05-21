@@ -8,7 +8,7 @@ import com.example.vrg_soft_test_task.data.database.entity.TopPublicationEntity
 
 interface TopPublicationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTopPublicationInDataBase(favoriteMovie: TopPublicationEntity)
+    suspend fun insertTopPublicationInDataBase(publication: TopPublicationEntity)
 
     @Query("SELECT * from top_publications")
     fun getAllTopPublicationFromDataBase(): LiveData<List<TopPublicationEntity>>

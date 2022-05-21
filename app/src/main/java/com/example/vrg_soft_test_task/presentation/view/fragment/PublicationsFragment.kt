@@ -66,17 +66,35 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
 
         topPublicationVm.isLoading.observe(viewLifecycleOwner) {
             if (it) {
-                val topPublication = topPublicationVm.topPublication.value!!.data.children
-                topPublicationRvAdapter.submitList(topPublication)
+                topPublicationVm.insertTopPublicationInDbVm(topPublicationVm.topPublication.value!!)
+                standardInit()
+            } else {
+                initObserveLoadingDataFromDb()
+            }
+        }
+    }
 
-                binding.progressbar.visibility = View.GONE
-                binding.publicationsRv.visibility = View.VISIBLE
-                binding.titleTxt.visibility = View.VISIBLE
+    private fun initObserveLoadingDataFromDb() {
+        topPublicationVm.getTopPublicationFromDbVm()
+
+        topPublicationVm.isGetTopPublicationFromDb.observe(viewLifecycleOwner) {
+            if (it) {
+                standardInit()
             } else {
                 binding.progressbar.visibility = View.GONE
                 binding.notConnectImg.visibility = View.VISIBLE
             }
         }
+
+    }
+
+    private fun standardInit() {
+        val topPublication = topPublicationVm.topPublication.value!!.data.children
+        topPublicationRvAdapter.submitList(topPublication)
+
+        binding.progressbar.visibility = View.GONE
+        binding.publicationsRv.visibility = View.VISIBLE
+        binding.titleTxt.visibility = View.VISIBLE
     }
 
     private fun initRvAdapter() {
