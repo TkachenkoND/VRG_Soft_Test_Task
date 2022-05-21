@@ -5,20 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.vrg_soft_test_task.R
 import com.example.vrg_soft_test_task.databinding.PublicationsFragmentBinding
+import com.example.vrg_soft_test_task.presentation.view.adapter.ClickOnTheImg
 import com.example.vrg_soft_test_task.presentation.view.adapter.TopPublicationRvAdapter
 import com.example.vrg_soft_test_task.presentation.view_model.TopPublicationViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class PublicationsFragment: Fragment() {
+class PublicationsFragment: Fragment(), ClickOnTheImg {
 
     private var _binding: PublicationsFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val topPublicationVm by sharedViewModel<TopPublicationViewModel>()
 
-    private val topPublicationRvAdapter = TopPublicationRvAdapter()
+    private val topPublicationRvAdapter = TopPublicationRvAdapter(this@PublicationsFragment as ClickOnTheImg)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,5 +67,11 @@ class PublicationsFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun imgPress(imgUrl: String) {
+        parentFragmentManager.commit {
+            replace(R.id.containerFragment, FullScreenImgFragment(imgUrl))
+        }
     }
 }

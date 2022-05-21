@@ -16,7 +16,11 @@ import java.time.ZoneId
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TopPublicationRvAdapter :
+interface ClickOnTheImg {
+    fun imgPress(imgUrl: String)
+}
+
+class TopPublicationRvAdapter(val clickOnTheImg: ClickOnTheImg) :
     ListAdapter<Child, TopPublicationRvAdapter.ItemViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -49,6 +53,13 @@ class TopPublicationRvAdapter :
                     .into(imgPublication)
 
                 numCommentsTxt.text = "$numComments comments"
+
+                if (!publicationItem.data.thumbnail.isNullOrEmpty()){
+                    imgPublication.setOnClickListener {
+                        clickOnTheImg.imgPress(publicationItem.data.url)
+                    }
+                }
+
             }
         }
     }
