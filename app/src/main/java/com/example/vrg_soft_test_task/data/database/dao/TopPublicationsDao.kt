@@ -1,15 +1,19 @@
 package com.example.vrg_soft_test_task.data.database.dao
 
-import androidx.lifecycle.LiveData
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.vrg_soft_test_task.data.database.entity.TopPublicationEntity
 
+@Dao
 interface TopPublicationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTopPublicationInDataBase(publication: TopPublicationEntity)
+    suspend fun insertTopPublicationInDataBase(publication: List<TopPublicationEntity>)
 
     @Query("SELECT * from top_publications")
-    fun getAllTopPublicationFromDataBase(): LiveData<List<TopPublicationEntity>>
+    suspend fun getAllTopPublicationFromDataBase(): List<TopPublicationEntity>
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTopPublicationInDataBase(listPublication: List<TopPublicationEntity>)
+
+    @Query("SELECT * from top_publications LIMIT 1")
+    suspend fun checkIsEmptyDataBase(): TopPublicationEntity
 }

@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.activity.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/containerFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.vrg_soft_test_task.presentation.view.fragment.PublicationsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

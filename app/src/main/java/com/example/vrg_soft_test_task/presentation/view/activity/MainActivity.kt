@@ -19,14 +19,5 @@ class MainActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(
             AppCompatDelegate.MODE_NIGHT_NO)
-
-        initContainerFragment()
     }
-
-    private fun initContainerFragment() {
-        supportFragmentManager.commit {
-            replace(R.id.containerFragment, PublicationsFragment())
-        }
-    }
-
 }

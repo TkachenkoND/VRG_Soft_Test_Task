@@ -1,6 +1,5 @@
 package com.example.vrg_soft_test_task.presentation.view.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,13 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vrg_soft_test_task.R
+import com.example.vrg_soft_test_task.data.helper.convertToGmt
 import com.example.vrg_soft_test_task.databinding.ItemPublicationBinding
 import com.example.vrg_soft_test_task.domain.models.Child
-import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.ZoneId
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 interface ClickOnTheImg {
     fun imgPress(imgUrl: String)
@@ -92,29 +87,5 @@ class DiffCallback : DiffUtil.ItemCallback<Child>() {
     }
 }
 
-@SuppressLint("NewApi")
-fun convertToGmt(dateTime: Double): String {
-    val timeToLong = dateTime.toLong()
-    val localTime = Instant.ofEpochSecond(timeToLong)
-        .atZone(ZoneId.systemDefault())
-        .toLocalDate()
 
-    val format = SimpleDateFormat("yyyy-MM-dd")
-    val past = format.parse(localTime.toString())
-    val now = Date()
-
-    val minutesL = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time)
-    val hoursL = TimeUnit.MILLISECONDS.toHours(now.time - past.time)
-
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time).toString() + " minutes ago"
-    val hours = TimeUnit.MILLISECONDS.toHours(now.time - past.time).toString() + " hours ago"
-    val days = TimeUnit.MILLISECONDS.toDays(now.time - past.time).toString() + " days ago"
-
-    return if (minutesL < 59 && hoursL == 0L)
-        minutes
-    else if (minutesL > 59 && hoursL < 24)
-        hours
-    else
-        days
-}
 

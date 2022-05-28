@@ -5,4 +5,6 @@
     <string name="body_text">Save image to gallery?</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
+    <string name="saved_text">Successfully saved to gallery</string>
+    <string name="error_text">Error No Found(</string>
 </resources>

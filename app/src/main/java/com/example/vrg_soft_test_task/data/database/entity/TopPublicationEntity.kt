@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "top_publications")
 data class TopPublicationEntity(
+    @PrimaryKey(autoGenerate = true)
+    var publicationId: Int? = null,
 
     @ColumnInfo(name = "author_full_name")
     val authorFullName: String,
@@ -24,7 +26,4 @@ data class TopPublicationEntity(
 
     @ColumnInfo(name = "created_UTC")
     val createdUTC: Double
-) {
-    @PrimaryKey(autoGenerate = true)
-    var publicationId: Int? = null
-}
+)

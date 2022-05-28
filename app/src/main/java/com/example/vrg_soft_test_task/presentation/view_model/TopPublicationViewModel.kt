@@ -27,17 +27,17 @@ class TopPublicationViewModel(
     private val _isGetTopPublicationFromDb = MutableLiveData<Boolean>()
     val isGetTopPublicationFromDb: LiveData<Boolean> = _isGetTopPublicationFromDb
 
-    private val _isInsertTopPublicationInDb = MutableLiveData<Boolean>()
-    val isInsertTopPublicationInDb: LiveData<Boolean> = _isInsertTopPublicationInDb
-
     //API
     fun loadTopPublicationVm() {
         viewModelScope.launch {
             try {
                 _topPublication.postValue(loadTopPublicationUseCase.loadTopPublication())
+
                 _isLoading.postValue(true)
+                Log.d("loadTopPublicationVm", "good")
+
             } catch (e: Exception) {
-                Log.d("LoadException", e.toString())
+                Log.d("loadTopPublicationVm", e.toString())
                 _isLoading.postValue(false)
             }
         }
@@ -45,17 +45,40 @@ class TopPublicationViewModel(
 
     //DataBase
     fun getTopPublicationFromDbVm() {
-        try {
-            _topPublication.value =
-                toTopPublicationModel(topPublicationsDao.getAllTopPublicationFromDataBase().value!!)
-            _isGetTopPublicationFromDb.value = true
-        } catch (e: Exception) {
-            Log.d("GetFromDbException", e.toString())
-            _isGetTopPublicationFromDb.value = false
+        viewModelScope.launch {
+            try {
+                val data =
+                    toTopPublicationModel(topPublicationsDao.getAllTopPublicationFromDataBase())
+                _topPublication.postValue(data)
+                _isGetTopPublicationFromDb.postValue(true)
+                Log.d("GetFromDbException", "good")
+            } catch (e: Exception) {
+                _isGetTopPublicationFromDb.postValue(false)
+                Log.d("GetFromDbException", e.toString())
+            }
         }
     }
 
-    fun insertTopPublicationInDbVm(topPublicationModel: TopPublicationModel) {
+    private suspend fun insertTopPublicationInDbVm(topPublicationEntity: List<TopPublicationEntity>) {
+        try {
+            topPublicationsDao.insertTopPublicationInDataBase(topPublicationEntity)
+            Log.d("InsertInDb", "good")
+        } catch (e: Exception) {
+            Log.d("InsertInDbException", e.toString())
+        }
+
+    }
+
+    private suspend fun updateTopPublicationInDbVm(topPublicationEntity: List<TopPublicationEntity>) {
+        try {
+            topPublicationsDao.updateTopPublicationInDataBase(topPublicationEntity)
+            Log.d("UpdateInDb", "good")
+        } catch (e: Exception) {
+            Log.d("UpdateInDbException", e.toString())
+        }
+    }
+
+    fun checkIsEmptyDbVm(topPublicationModel: TopPublicationModel) {
         val listPublication = mutableListOf<TopPublicationEntity>()
 
         topPublicationModel.data.children.forEach {
@@ -63,15 +86,11 @@ class TopPublicationViewModel(
         }
 
         viewModelScope.launch {
-            try {
-                listPublication.forEach {
-                    topPublicationsDao.insertTopPublicationInDataBase(it)
-                }
-                _isInsertTopPublicationInDb.postValue(true)
-            } catch (e: Exception) {
-                Log.d("InsertInDbException", e.toString())
-                _isInsertTopPublicationInDb.postValue(false)
-            }
+            if (topPublicationsDao.checkIsEmptyDataBase() == null)
+                insertTopPublicationInDbVm(listPublication)
+            else
+                updateTopPublicationInDbVm(listPublication)
         }
     }
+
 }
