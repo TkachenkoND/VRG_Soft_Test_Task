@@ -11,10 +11,12 @@ import com.example.vrg_soft_test_task.data.toTopPublicationEntity
 import com.example.vrg_soft_test_task.data.toTopPublicationModel
 import com.example.vrg_soft_test_task.domain.models.TopPublicationModel
 import com.example.vrg_soft_test_task.domain.usecase.LoadTopPublicationUseCase
+import com.example.vrg_soft_test_task.domain.usecase.SaveImageInStorageUseCase
 import kotlinx.coroutines.launch
 
 class TopPublicationViewModel(
     private val loadTopPublicationUseCase: LoadTopPublicationUseCase,
+    private val saveImageInStorageUseCase: SaveImageInStorageUseCase,
     private val topPublicationsDao: TopPublicationsDao
 ) : ViewModel() {
 
@@ -31,7 +33,7 @@ class TopPublicationViewModel(
     fun loadTopPublicationVm() {
         viewModelScope.launch {
             try {
-                _topPublication.postValue(loadTopPublicationUseCase.loadTopPublication())
+                _topPublication.postValue(loadTopPublicationUseCase.execute())
 
                 _isLoading.postValue(true)
                 Log.d("loadTopPublicationVm", "good")
@@ -78,10 +80,10 @@ class TopPublicationViewModel(
         }
     }
 
-    fun checkIsEmptyDbVm(topPublicationModel: TopPublicationModel) {
+    fun checkIsEmptyDbVm() {
         val listPublication = mutableListOf<TopPublicationEntity>()
 
-        topPublicationModel.data.children.forEach {
+        _topPublication.value?.data?.children?.forEach {
             listPublication.add(it.data.toTopPublicationEntity())
         }
 
@@ -91,6 +93,11 @@ class TopPublicationViewModel(
             else
                 updateTopPublicationInDbVm(listPublication)
         }
+    }
+
+    //Storage
+    fun saveImageInStorageVm(imgUrl: String) {
+        saveImageInStorageUseCase.execute(imgUrl)
     }
 
 }

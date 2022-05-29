@@ -1,7 +1,6 @@
-package com.example.vrg_soft_test_task.app
+package com.example.vrg_soft_test_task.di
 
 import android.app.Application
-import com.example.vrg_soft_test_task.di.*
 import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,7 +21,8 @@ class App : Application() {
                     viewModelModule,
                     dataModule,
                     domainModule,
-                    dbModule
+                    dbModule,
+                    storageModule
                 )
             )
         }
