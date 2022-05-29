@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vrg_soft_test_task.data.database.dao.TopPublicationsDao
 import com.example.vrg_soft_test_task.data.database.entity.TopPublicationEntity
-import com.example.vrg_soft_test_task.data.toTopPublicationEntity
-import com.example.vrg_soft_test_task.data.toTopPublicationModel
+import com.example.vrg_soft_test_task.data.helper.toTopPublicationEntity
+import com.example.vrg_soft_test_task.data.helper.toTopPublicationModel
 import com.example.vrg_soft_test_task.domain.models.TopPublicationModel
 import com.example.vrg_soft_test_task.domain.usecase.LoadTopPublicationUseCase
 import com.example.vrg_soft_test_task.domain.usecase.SaveImageInStorageUseCase
@@ -29,15 +29,11 @@ class TopPublicationViewModel(
     private val _isGetTopPublicationFromDb = MutableLiveData<Boolean>()
     val isGetTopPublicationFromDb: LiveData<Boolean> = _isGetTopPublicationFromDb
 
-    //API
     fun loadTopPublicationVm() {
         viewModelScope.launch {
             try {
                 _topPublication.postValue(loadTopPublicationUseCase.execute())
-
                 _isLoading.postValue(true)
-                Log.d("loadTopPublicationVm", "good")
-
             } catch (e: Exception) {
                 Log.d("loadTopPublicationVm", e.toString())
                 _isLoading.postValue(false)
@@ -45,7 +41,6 @@ class TopPublicationViewModel(
         }
     }
 
-    //DataBase
     fun getTopPublicationFromDbVm() {
         viewModelScope.launch {
             try {
@@ -53,10 +48,8 @@ class TopPublicationViewModel(
                     toTopPublicationModel(topPublicationsDao.getAllTopPublicationFromDataBase())
                 _topPublication.postValue(data)
                 _isGetTopPublicationFromDb.postValue(true)
-                Log.d("GetFromDbException", "good")
             } catch (e: Exception) {
                 _isGetTopPublicationFromDb.postValue(false)
-                Log.d("GetFromDbException", e.toString())
             }
         }
     }
@@ -64,7 +57,6 @@ class TopPublicationViewModel(
     private suspend fun insertTopPublicationInDbVm(topPublicationEntity: List<TopPublicationEntity>) {
         try {
             topPublicationsDao.insertTopPublicationInDataBase(topPublicationEntity)
-            Log.d("InsertInDb", "good")
         } catch (e: Exception) {
             Log.d("InsertInDbException", e.toString())
         }
@@ -74,7 +66,6 @@ class TopPublicationViewModel(
     private suspend fun updateTopPublicationInDbVm(topPublicationEntity: List<TopPublicationEntity>) {
         try {
             topPublicationsDao.updateTopPublicationInDataBase(topPublicationEntity)
-            Log.d("UpdateInDb", "good")
         } catch (e: Exception) {
             Log.d("UpdateInDbException", e.toString())
         }
@@ -95,7 +86,6 @@ class TopPublicationViewModel(
         }
     }
 
-    //Storage
     fun saveImageInStorageVm(imgUrl: String) {
         saveImageInStorageUseCase.execute(imgUrl)
     }

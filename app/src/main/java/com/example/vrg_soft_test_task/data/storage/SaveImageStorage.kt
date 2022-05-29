@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.vrg_soft_test_task.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream

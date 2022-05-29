@@ -5,13 +5,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ChildData(
-    @Json(name = "author_fullname")
-    val authorFullName: String,
+    @Json(name = "author_fullname") val authorFullName: String,
     val title: String,
     val thumbnail: String,
-    @Json(name = "num_comments")
-    val numComments: Long,
+    @Json(name = "num_comments") val numComments: Long,
     val url: String,
-    @Json(name = "created_utc")
-    val createdUTC: Double,
+    @Json(name = "created_utc") val createdUTC: Double,
 )

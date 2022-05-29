@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.vrg_soft_test_task.R
@@ -19,11 +18,8 @@ import com.example.vrg_soft_test_task.presentation.view.dialog.SaveDialog
 import com.example.vrg_soft_test_task.presentation.view_model.TopPublicationViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-
-class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, ClickPositiveButton {
-
-    private var _binding: PublicationsFragmentBinding? = null
-    private val binding get() = _binding!!
+class PublicationsFragment : BaseFragment<PublicationsFragmentBinding>(), ClickOnTheImg,
+    ClickOnTheSaveImg, ClickPositiveButton {
 
     private val topPublicationVm by sharedViewModel<TopPublicationViewModel>()
 
@@ -31,16 +27,6 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
         this@PublicationsFragment as ClickOnTheImg,
         this@PublicationsFragment as ClickOnTheSaveImg
     )
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-
-        _binding = PublicationsFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -99,7 +85,7 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
 
     private fun initScrollChangeListener() {
         binding.idNestedSV.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
-            if (scrollY == v!!.getChildAt(v.size-1).measuredHeight - v.measuredHeight) {
+            if (scrollY == v!!.getChildAt(v.size - 1).measuredHeight - v.measuredHeight) {
                 binding.loadingPB.visibility = View.VISIBLE
                 topPublicationVm.loadTopPublicationVm()
             }
@@ -141,13 +127,12 @@ class PublicationsFragment : Fragment(), ClickOnTheImg, ClickOnTheSaveImg, Click
 
     override fun onPause() {
         topPublicationVm.checkIsEmptyDbVm()
-
         super.onPause()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    override fun initBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = PublicationsFragmentBinding.inflate(inflater, container, false)
 
 }

@@ -11,8 +11,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-const val OK_HTTP_TIMEOUT = 40L
-const val BASE_URL = "http://www.reddit.com/"
+private const val OK_HTTP_TIMEOUT = 40L
+private const val BASE_URL = "http://www.reddit.com/"
 
 val networkModule = module {
     single { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
@@ -36,7 +36,6 @@ inline fun <reified T> createService(
     apiUrl: String,
     okHttpClient: OkHttpClient
 ): T {
-
     return Retrofit.Builder()
         .baseUrl(apiUrl)
         .addConverterFactory(MoshiConverterFactory.create(moshi))

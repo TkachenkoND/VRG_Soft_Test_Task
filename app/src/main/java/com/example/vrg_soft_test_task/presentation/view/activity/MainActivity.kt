@@ -3,10 +3,7 @@ package com.example.vrg_soft_test_task.presentation.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.commit
-import com.example.vrg_soft_test_task.R
 import com.example.vrg_soft_test_task.databinding.ActivityMainBinding
-import com.example.vrg_soft_test_task.presentation.view.fragment.PublicationsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         AppCompatDelegate.setDefaultNightMode(
-            AppCompatDelegate.MODE_NIGHT_NO)
+            AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 }

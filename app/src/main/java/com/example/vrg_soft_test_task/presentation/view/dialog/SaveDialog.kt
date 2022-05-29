@@ -29,5 +29,4 @@ class SaveDialog(
     companion object {
         const val TAG = "SaveDialog"
     }
-
 }

@@ -6,6 +6,7 @@ import com.example.vrg_soft_test_task.domain.repository.SaveImageInStorageReposi
 class SaveImageInStorageRepositoryImpl(
     private val saveImageStorage: SaveImageStorage
 ) : SaveImageInStorageRepository {
+
     override fun saveImageInStorage(imgUrl: String) {
         saveImageStorage.saveImage(imgUrl)
     }
